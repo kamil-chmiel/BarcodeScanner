@@ -11,6 +11,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import BarcodeMask from "react-native-barcode-mask";
 import Camera from "../Components/Camera";
 import DataPanel from "../Components/DataPanel";
+import PermissionsNote from "../Components/PermissionsNote";
+
+interface State {
+  enthusiasmLevel: number;
+}
 
 export default class Scanner extends Component {
   constructor(props) {
@@ -47,30 +52,10 @@ export default class Scanner extends Component {
     if (this.state.hasCameraPermission === null) {
       return <View />;
     } else if (this.state.hasCameraPermission === false) {
-      return (
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <Text
-            style={{
-              fontSize: 18,
-              textAlign: "center",
-              fontWeight: "bold",
-              margin: 10
-            }}
-          >
-            You have not granted access to camera
-          </Text>
-          <TouchableOpacity onPress={() => Linking.openURL("App-Prefs:root")}>
-            <Text style={{ color: "blue" }}>
-              Go to settings to change permissions
-            </Text>
-          </TouchableOpacity>
-        </View>
-      );
+      return <PermissionsNote />;
     } else {
       return (
-        <View style={styles.container}>
+        <View style={{ flex: 1 }}>
           <Camera
             torchOn={this.state.torchOn}
             handleTourch={this.handleTourch}
@@ -88,30 +73,3 @@ export default class Scanner extends Component {
     }
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  preview: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center"
-  },
-  cameraIcon: {
-    marginTop: 35,
-    marginLeft: 35
-  },
-  bottomOverlay: {
-    position: "absolute"
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    margin: 20
-  },
-  data: {
-    fontSize: 17,
-    margin: 5
-  }
-});
