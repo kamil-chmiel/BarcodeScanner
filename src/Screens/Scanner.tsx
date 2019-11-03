@@ -9,7 +9,7 @@ import TorchButton from "../Components/TorchButton";
 interface State {
   hasCameraPermission: boolean;
   isScanning: boolean;
-  torchOn: boolean;
+  isTorchOn: boolean;
   codeData: { type: string; data: string };
 }
 
@@ -19,7 +19,7 @@ export default class Scanner extends Component<any, State> {
     this.state = {
       hasCameraPermission: null,
       isScanning: true,
-      torchOn: false,
+      isTorchOn: false,
       codeData: null
     };
   }
@@ -40,11 +40,11 @@ export default class Scanner extends Component<any, State> {
   };
 
   handleTorch = () => {
-    this.setState({ torchOn: !this.state.torchOn });
+    this.setState({ isTorchOn: !this.state.isTorchOn });
   };
 
   render() {
-    const { hasCameraPermission, isScanning, torchOn, codeData } = this.state;
+    const { hasCameraPermission, isScanning, isTorchOn, codeData } = this.state;
 
     if (hasCameraPermission === null) {
       return <View />;
@@ -54,11 +54,11 @@ export default class Scanner extends Component<any, State> {
       return (
         <View style={{ flex: 1 }}>
           <Camera
-            torchOn={torchOn}
+            torchOn={isTorchOn}
             showScanning={isScanning}
             onBarCodeRead={this.onBarCodeRead}
           />
-          <TorchButton torchOn={torchOn} onButtonPress={this.handleTorch} />
+          <TorchButton torchOn={isTorchOn} onButtonPress={this.handleTorch} />
           {!isScanning ? (
             <DataPanel
               codeData={codeData}
