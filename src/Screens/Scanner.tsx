@@ -1,26 +1,22 @@
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Linking
-} from "react-native";
+import { View } from "react-native";
 import * as Permissions from "expo-permissions";
-import { MaterialIcons } from "@expo/vector-icons";
-import BarcodeMask from "react-native-barcode-mask";
 import Camera from "../Components/Camera";
 import DataPanel from "../Components/DataPanel";
 import PermissionsNote from "../Components/PermissionsNote";
+import TorchButton from "../Components/TorchButton";
 
 interface State {
-  enthusiasmLevel: number;
+  dropDownIsOpen: boolean;
+  hasCameraPermission: boolean;
+  isScanning: boolean;
+  torchOn: boolean;
+  codeData: object;
 }
 
-export default class Scanner extends Component {
+export default class Scanner extends Component<State> {
   constructor(props) {
     super(props);
-    this.handleTourch = this.handleTourch.bind(this);
     this.state = {
       hasCameraPermission: null,
       isScanning: true,
@@ -44,27 +40,30 @@ export default class Scanner extends Component {
     this.setState({ codeData: null, isScanning: true });
   };
 
-  handleTourch() {
+  handleTorch = () => {
     this.setState({ torchOn: !this.state.torchOn });
-  }
+  };
 
   render() {
-    if (this.state.hasCameraPermission === null) {
+    const { hasCameraPermission, isScanning, torchOn, codeData } = this.state;
+
+    if (hasCameraPermission === null) {
       return <View />;
-    } else if (this.state.hasCameraPermission === false) {
+    } else if (hasCameraPermission === false) {
       return <PermissionsNote />;
     } else {
       return (
         <View style={{ flex: 1 }}>
           <Camera
-            torchOn={this.state.torchOn}
-            handleTourch={this.handleTourch}
-            showScanning={this.state.isScanning}
+            torchOn={torchOn}
+            showScanning={isScanning}
             onBarCodeRead={this.onBarCodeRead}
           />
-          {!this.state.isScanning ? (
+          <TorchButton torchOn={torchOn} onButtonPress={this.handleTorch} />
+          {!isScanning ? (
             <DataPanel
-              codeData={this.state.codeData}
+              codeType={codeData.type}
+              codeData={codeData.data}
               onCloseView={this.closeCodeDataView}
             />
           ) : null}

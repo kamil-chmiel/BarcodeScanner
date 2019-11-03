@@ -1,16 +1,17 @@
 import React from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Camera as ExpoCamera } from "expo-camera";
 import BarcodeMask from "react-native-barcode-mask";
-import { MaterialIcons } from "@expo/vector-icons";
 
-export default function Camera({
-  torchOn,
-  handleTourch,
-  showScanning,
-  onBarCodeRead
-}) {
-  const { container, preview, bottomOverlay, cameraIcon } = styles;
+interface Props {
+  torchOn: boolean;
+  showScanning: boolean;
+  onBarCodeRead: (object) => void;
+}
+
+const Camera: React.FC<Props> = props => {
+  const { container, preview } = styles;
+  const { torchOn, showScanning, onBarCodeRead } = props;
 
   return (
     <View style={container}>
@@ -25,19 +26,9 @@ export default function Camera({
       >
         {showScanning ? <BarcodeMask /> : null}
       </ExpoCamera>
-      <View style={bottomOverlay}>
-        <TouchableOpacity onPress={() => handleTourch()}>
-          <MaterialIcons
-            style={cameraIcon}
-            size={30}
-            color="white"
-            name={torchOn ? "flash-on" : "flash-off"}
-          />
-        </TouchableOpacity>
-      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -47,12 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center"
-  },
-  cameraIcon: {
-    marginTop: 35,
-    marginLeft: 35
-  },
-  bottomOverlay: {
-    position: "absolute"
   }
 });
+
+export default Camera;

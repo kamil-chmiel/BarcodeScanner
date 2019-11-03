@@ -7,7 +7,7 @@ import {
   Linking
 } from "react-native";
 
-export default function PermissionsNote() {
+const PermissionsNote = () => {
   const { container, title } = styles;
 
   return (
@@ -20,7 +20,7 @@ export default function PermissionsNote() {
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -35,3 +35,5 @@ const styles = StyleSheet.create({
     margin: 10
   }
 });
+
+export default PermissionsNote;

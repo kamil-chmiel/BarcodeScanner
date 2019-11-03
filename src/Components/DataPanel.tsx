@@ -2,8 +2,15 @@ import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function DataPanel({ codeData, onCloseView }) {
+interface Props {
+  codeType: string;
+  codeData: string;
+  onCloseView: () => void;
+}
+
+const DataPanel: React.FC<Props> = props => {
   const { container, title, data } = styles;
+  const { codeType, codeData, onCloseView } = props;
 
   return (
     <View style={container}>
@@ -20,11 +27,11 @@ export default function DataPanel({ codeData, onCloseView }) {
       </View>
 
       <Text style={title}>Scanned Barcode</Text>
-      <Text style={data}>{"Barcode type: " + codeData.type}</Text>
-      <Text style={data}>{"Barcode data: " + codeData.data}</Text>
+      <Text style={data}>{"Barcode type: " + codeType}</Text>
+      <Text style={data}>{"Barcode data: " + codeData}</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -41,3 +48,5 @@ const styles = StyleSheet.create({
     margin: 5
   }
 });
+
+export default DataPanel;
