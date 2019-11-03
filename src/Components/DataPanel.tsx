@@ -3,14 +3,13 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 interface Props {
-  codeType: string;
-  codeData: string;
+  codeData: { type: string; data: string };
   onCloseView: () => void;
 }
 
-const DataPanel: React.FC<Props> = props => {
+const DataPanel = (props: Props) => {
   const { container, title, data } = styles;
-  const { codeType, codeData, onCloseView } = props;
+  const { codeData, onCloseView } = props;
 
   return (
     <View style={container}>
@@ -27,8 +26,8 @@ const DataPanel: React.FC<Props> = props => {
       </View>
 
       <Text style={title}>Scanned Barcode</Text>
-      <Text style={data}>{"Barcode type: " + codeType}</Text>
-      <Text style={data}>{"Barcode data: " + codeData}</Text>
+      <Text style={data}>{"Barcode type: " + codeData.type}</Text>
+      <Text style={data}>{"Barcode data: " + codeData.data}</Text>
     </View>
   );
 };

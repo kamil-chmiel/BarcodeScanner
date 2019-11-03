@@ -6,10 +6,10 @@ import BarcodeMask from "react-native-barcode-mask";
 interface Props {
   torchOn: boolean;
   showScanning: boolean;
-  onBarCodeRead: (object) => void;
+  onBarCodeRead: (codeData: { type: string; data: string }) => void;
 }
 
-const Camera: React.FC<Props> = props => {
+const Camera = (props: Props) => {
   const { container, preview } = styles;
   const { torchOn, showScanning, onBarCodeRead } = props;
 

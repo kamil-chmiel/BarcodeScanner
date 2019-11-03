@@ -7,14 +7,13 @@ import PermissionsNote from "../Components/PermissionsNote";
 import TorchButton from "../Components/TorchButton";
 
 interface State {
-  dropDownIsOpen: boolean;
   hasCameraPermission: boolean;
   isScanning: boolean;
   torchOn: boolean;
-  codeData: object;
+  codeData: { type: string; data: string };
 }
 
-export default class Scanner extends Component<State> {
+export default class Scanner extends Component<any, State> {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,7 +29,7 @@ export default class Scanner extends Component<State> {
     this.setState({ hasCameraPermission: status === "granted" });
   }
 
-  onBarCodeRead = codeData => {
+  onBarCodeRead = (codeData: { type: string; data: string }) => {
     if (this.state.isScanning) {
       this.setState({ codeData, isScanning: false });
     }
@@ -62,8 +61,7 @@ export default class Scanner extends Component<State> {
           <TorchButton torchOn={torchOn} onButtonPress={this.handleTorch} />
           {!isScanning ? (
             <DataPanel
-              codeType={codeData.type}
-              codeData={codeData.data}
+              codeData={codeData}
               onCloseView={this.closeCodeDataView}
             />
           ) : null}

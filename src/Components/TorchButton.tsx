@@ -7,7 +7,7 @@ interface Props {
   onButtonPress: () => void;
 }
 
-const TorchButton: React.FC<Props> = props => {
+const TorchButton = (props: Props) => {
   const { bottomOverlay, cameraIcon } = styles;
   const { torchOn, onButtonPress } = props;
 
