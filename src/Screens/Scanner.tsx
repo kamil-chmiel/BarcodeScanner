@@ -14,15 +14,12 @@ interface State {
 }
 
 export default class Scanner extends Component<any, State> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hasCameraPermission: null,
-      isScanning: true,
-      isTorchOn: false,
-      codeData: null
-    };
-  }
+  state = {
+    hasCameraPermission: null,
+    isScanning: true,
+    isTorchOn: false,
+    codeData: null
+  };
 
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
