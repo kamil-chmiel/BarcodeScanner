@@ -2,21 +2,19 @@ import React, { Component } from "react";
 import { View } from "react-native";
 import * as Permissions from "expo-permissions";
 import Camera from "../Components/Camera";
-import DataPanel from "../Components/DataPanel";
 import PermissionsNote from "../Components/PermissionsNote";
 import TorchButton from "../Components/TorchButton";
+import { withNavigationFocus } from "react-navigation";
 
 interface State {
   hasCameraPermission: boolean;
-  isScanning: boolean;
   isTorchOn: boolean;
   codeData: { type: string; data: string };
 }
 
-export default class Scanner extends Component<any, State> {
+class Scanner extends Component<any, State> {
   state = {
     hasCameraPermission: null,
-    isScanning: true,
     isTorchOn: false,
     codeData: null
   };
@@ -27,13 +25,12 @@ export default class Scanner extends Component<any, State> {
   }
 
   onBarCodeRead = (codeData: { type: string; data: string }) => {
-    if (this.state.isScanning) {
-      this.setState({ codeData, isScanning: false });
-    }
+    this.setState({ codeData });
+    this.props.navigation.navigate("Results", { codeData: codeData });
   };
 
   closeCodeDataView = () => {
-    this.setState({ codeData: null, isScanning: true });
+    this.setState({ codeData: null });
   };
 
   handleTorch = () => {
@@ -41,29 +38,24 @@ export default class Scanner extends Component<any, State> {
   };
 
   render() {
-    const { hasCameraPermission, isScanning, isTorchOn, codeData } = this.state;
+    const { hasCameraPermission, isTorchOn } = this.state;
+    const isFocused = this.props.navigation.isFocused();
 
     if (hasCameraPermission === null) {
       return <View />;
     } else if (hasCameraPermission === false) {
       return <PermissionsNote />;
-    } else {
+    } else if (isFocused) {
       return (
         <View style={{ flex: 1 }}>
-          <Camera
-            torchOn={isTorchOn}
-            showScanning={isScanning}
-            onBarCodeRead={this.onBarCodeRead}
-          />
+          <Camera torchOn={isTorchOn} onBarCodeRead={this.onBarCodeRead} />
           <TorchButton torchOn={isTorchOn} onButtonPress={this.handleTorch} />
-          {!isScanning ? (
-            <DataPanel
-              codeData={codeData}
-              onCloseView={this.closeCodeDataView}
-            />
-          ) : null}
         </View>
       );
+    } else {
+      return <View />;
     }
   }
 }
+
+export default withNavigationFocus(Scanner);

@@ -5,13 +5,12 @@ import BarcodeMask from "react-native-barcode-mask";
 
 interface Props {
   torchOn: boolean;
-  showScanning: boolean;
   onBarCodeRead: (codeData: { type: string; data: string }) => void;
 }
 
 const Camera = (props: Props) => {
   const { container, preview } = styles;
-  const { torchOn, showScanning, onBarCodeRead } = props;
+  const { torchOn, onBarCodeRead } = props;
 
   return (
     <View style={container}>
@@ -24,7 +23,7 @@ const Camera = (props: Props) => {
         }
         onBarCodeScanned={data => onBarCodeRead(data)}
       >
-        {showScanning ? <BarcodeMask /> : null}
+        <BarcodeMask />
       </ExpoCamera>
     </View>
   );
