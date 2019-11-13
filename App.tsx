@@ -1,19 +1,17 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import Scanner from "./src/Screens/Scanner";
+import Results from "./src/Screens/Results";
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const MainNavigator = createStackNavigator({
+  Scanner: { screen: Scanner, navigationOptions: {
+    header: null,
+  } },
+  Results: { screen: Results, navigationOptions: {
+    title: "Barcode Details",
+  } },
 });
+
+const App = createAppContainer(MainNavigator);
+
+export default App;
